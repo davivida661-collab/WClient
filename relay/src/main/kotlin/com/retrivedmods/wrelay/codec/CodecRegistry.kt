@@ -105,14 +105,19 @@ object CodecRegistry {
             return exactMatch
         }
 
-        val closestVersion = sortedProtocolVersions.findLast { it <= protocolVersion }
-            ?: sortedProtocolVersions.last()
+        // Pick the highest registered protocol that is still <= the requested one.
+        // If the client is newer than everything we support, fall back to the latest
+        // codec we actually have registered instead of the oldest.
+        val closestVersion = sortedProtocolVersions.filter { it <= protocolVersion }.maxOrNull()
+            ?: sortedProtocolVersions.maxOrNull()
+            ?: error("No codecs registered")
 
         return codecMap[closestVersion]!!
     }
 
     fun getLatestCodec(): BedrockCodec {
-        return codecMap[sortedProtocolVersions.first()]!!
+        val latest = sortedProtocolVersions.maxOrNull() ?: error("No codecs registered")
+        return codecMap[latest]!!
     }
 
     fun getMinecraftVersion(protocolVersion: Int): String? {
