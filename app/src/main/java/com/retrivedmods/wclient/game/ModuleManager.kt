@@ -5,8 +5,15 @@ import android.net.Uri
 import android.os.Environment
 import com.retrivedmods.wclient.application.AppContext
 import com.retrivedmods.wclient.game.module.combat.ACAModule
+import com.retrivedmods.wclient.game.module.combat.AdvanceCombatAuraModule
 import com.retrivedmods.wclient.game.module.combat.AntiCrystalModule
 import com.retrivedmods.wclient.game.module.combat.AntiKnockbackModule
+import com.retrivedmods.wclient.game.module.combat.AutoArmorModule
+import com.retrivedmods.wclient.game.module.combat.AutoSoupModule
+import com.retrivedmods.wclient.game.module.combat.AutoWeaponModule
+import com.retrivedmods.wclient.game.module.combat.BlockClutchModule
+import com.retrivedmods.wclient.game.module.combat.BowAimbotModule
+import com.retrivedmods.wclient.game.module.combat.CriticalsModule
 import com.retrivedmods.wclient.game.module.combat.CrystalSmashModule
 import com.retrivedmods.wclient.game.module.combat.EnemyHunterModule
 import com.retrivedmods.wclient.game.module.combat.HitAndRunModule
@@ -20,9 +27,32 @@ import com.retrivedmods.wclient.game.module.combat.AutoTotemModule
 import com.retrivedmods.wclient.game.module.combat.HotbarSwitcherModule
 import com.retrivedmods.wclient.game.module.combat.InfiniteAuraModule
 import com.retrivedmods.wclient.game.module.misc.ArrayListModule
+import com.retrivedmods.wclient.game.module.misc.AutoToolModule
+import com.retrivedmods.wclient.game.module.misc.DerpModule
+import com.retrivedmods.wclient.game.module.misc.FastPlaceModule
+import com.retrivedmods.wclient.game.module.misc.InventoryCleanerModule
+import com.retrivedmods.wclient.game.module.misc.MCFModule
+import com.retrivedmods.wclient.game.module.misc.NoFallModule
+import com.retrivedmods.wclient.game.module.misc.NoRotateModule
+import com.retrivedmods.wclient.game.module.misc.PingSpoofModule
+import com.retrivedmods.wclient.game.module.misc.TimerModule
+import com.retrivedmods.wclient.game.module.motion.AutoSprintModule
+import com.retrivedmods.wclient.game.module.motion.BlinkModule
+import com.retrivedmods.wclient.game.module.motion.ClickTPModule
+import com.retrivedmods.wclient.game.module.motion.DashModule
+import com.retrivedmods.wclient.game.module.motion.GlideModule
+import com.retrivedmods.wclient.game.module.motion.IceSpeedModule
+import com.retrivedmods.wclient.game.module.motion.InvWalkModule
+import com.retrivedmods.wclient.game.module.motion.LongJumpModule
 import com.retrivedmods.wclient.game.module.motion.NoClipModule
+import com.retrivedmods.wclient.game.module.misc.AutoBuilderModule
 import com.retrivedmods.wclient.game.module.misc.AutoDisconnectModule
 import com.retrivedmods.wclient.game.module.misc.CommandHandlerModule
+import com.retrivedmods.wclient.game.module.visual.AmbienceModule
+import com.retrivedmods.wclient.game.module.visual.AnimationsModule
+import com.retrivedmods.wclient.game.module.visual.ChamsModule
+import com.retrivedmods.wclient.game.module.visual.ChunkBordersModule
+import com.retrivedmods.wclient.game.module.visual.ClearWaterModule
 import com.retrivedmods.wclient.game.module.visual.CoordinatesModule
 import com.retrivedmods.wclient.game.module.misc.DesyncModule
 import com.retrivedmods.wclient.game.module.misc.FakeDeathModule
@@ -32,11 +62,28 @@ import com.retrivedmods.wclient.game.module.misc.NoChatModule
 import com.retrivedmods.wclient.game.module.misc.PieChartModule
 import com.retrivedmods.wclient.game.module.misc.PositionLoggerModule
 import com.retrivedmods.wclient.game.module.misc.ReplayModule
+import com.retrivedmods.wclient.game.module.visual.FOVSliderModule
+import com.retrivedmods.wclient.game.module.visual.ItemESPModule
+import com.retrivedmods.wclient.game.module.visual.NameTagsModule
+import com.retrivedmods.wclient.game.module.visual.NoWeatherModule
+import com.retrivedmods.wclient.game.module.visual.TracersModule
 import com.retrivedmods.wclient.game.module.misc.ChestStealerModule
 import com.retrivedmods.wclient.game.module.misc.SpammerModule
 import com.retrivedmods.wclient.game.module.misc.ToggleSoundModule
 import com.retrivedmods.wclient.game.module.misc.WaterMarkModule
+import com.retrivedmods.wclient.game.module.motion.StepModule
+import com.retrivedmods.wclient.game.module.motion.WallClimbModule
+import com.retrivedmods.wclient.game.module.visual.TargetHudModule
 import com.retrivedmods.wclient.game.module.world.AntiDebuffModule
+import com.retrivedmods.wclient.game.module.world.AutoFarmModule
+import com.retrivedmods.wclient.game.module.world.AutoFishModule
+import com.retrivedmods.wclient.game.module.world.AutoMineModule
+import com.retrivedmods.wclient.game.module.world.ChestESPModule
+import com.retrivedmods.wclient.game.module.world.FastBreakModule
+import com.retrivedmods.wclient.game.module.world.NukerModule
+import com.retrivedmods.wclient.game.module.world.PortalClickerModule
+import com.retrivedmods.wclient.game.module.world.ScaffoldModule
+import com.retrivedmods.wclient.game.module.world.XRayModule
 import com.retrivedmods.wclient.game.module.world.EffectsModule
 import com.retrivedmods.wclient.game.module.world.ParticlesModule
 import com.retrivedmods.wclient.game.module.world.TimeShiftModule
@@ -97,12 +144,21 @@ object ModuleManager {
             add(AutoHvHModule())
             add(EnemyHunterModule())
             add(AntiKnockbackModule())
-
             add(AntiCrystalModule())
             add(HitAndRunModule())
             add(HitboxModule())
             add(CrystalSmashModule())
             add(TriggerBotModule())
+            add(AutoArmorModule())
+            add(BowAimbotModule())
+            add(CriticalsModule())
+            add(SuperKnockbackModule())
+            add(VelocityModule())
+            add(WTapModule())
+            add(AutoWeaponModule())
+            add(AutoSoupModule())
+            add(BlockClutchModule())
+            add(AdvanceCombatAuraModule())
 
             // Motion
             add(MotionFlyModule())
@@ -118,6 +174,16 @@ object ModuleManager {
             add(AutoWalkModule())
             add(AntiAFKModule())
             add(SpiderModule())
+            add(BlinkModule())
+            add(ClickTPModule())
+            add(DashModule())
+            add(GlideModule())
+            add(IceSpeedModule())
+            add(InvWalkModule())
+            add(LongJumpModule())
+            add(StepModule())
+            add(WallClimbModule())
+            add(AutoSprintModule())
 
             // Visual
             add(DamageTextModule())
@@ -133,6 +199,16 @@ object ModuleManager {
             add(CrosshairModule())
             add(TargetHudModule())
             add(FullbrightModule())
+            add(AmbienceModule())
+            add(AnimationsModule())
+            add(ChamsModule())
+            add(ChunkBordersModule())
+            add(ClearWaterModule())
+            add(FOVSliderModule())
+            add(ItemESPModule())
+            add(NameTagsModule())
+            add(NoWeatherModule())
+            add(TracersModule())
 
             // World
             add(FreeCameraModule())
@@ -141,9 +217,18 @@ object ModuleManager {
             add(EffectsModule())
             add(ParticlesModule())
             add(AntiDebuffModule())
+            add(AutoFarmModule())
+            add(AutoFishModule())
+            add(AutoMineModule())
+            add(ChestESPModule())
+            add(FastBreakModule())
+            add(NukerModule())
+            add(ScaffoldModule())
+            add(XRayModule())
+            add(AutoBuilderModule())
+            add(PortalClickerModule())
 
             // Misc
-
             add(AutoDisconnectModule())
             add(ArrayListModule())
             add(ToggleSoundModule())
@@ -159,6 +244,15 @@ object ModuleManager {
             add(FakeDeathModule())
             add(FakeXPModule())
             add(MinerModule())
+            add(AutoToolModule())
+            add(DerpModule())
+            add(FastPlaceModule())
+            add(InventoryCleanerModule())
+            add(MCFModule())
+            add(NoFallModule())
+            add(NoRotateModule())
+            add(PingSpoofModule())
+            add(TimerModule())
         }
     }
 
