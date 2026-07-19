@@ -5,7 +5,7 @@ on:
     branches: [ "*" ]
   pull_request:
     branches: [ "*" ]
-  workflow_dispatch:  # Permite compilar manualmente pelo GitHub
+  workflow_dispatch:
 
 jobs:
   build:
@@ -16,20 +16,33 @@ jobs:
       - name: 📥 Checkout código
         uses: actions/checkout@v4
 
-      - name: ☕ Configurar Java 17
+      - name: ☕ Configurar Java 17 (padrão para build)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: 📦 Configurar Java 8 (para relay)
+      - name: 📦 Instalar Java 8 (para toolchain do relay)
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '8'
 
-      - name: 🏗️ Configurar Android SDK
-        uses: android-actions/setup-android@v3
+      - name: 🏗️ Forçar Java 17 como padrão
+        run: |
+          # setup-java define JAVA_HOME para a última JDK instalada (Java 8)
+          # Precisamos de Java 17 para Android SDK e Gradle
+          echo "JAVA_HOME=$JAVA_HOME_17_arm64" >> $GITHUB_ENV
+          # Fallback para x64
+          echo "JAVA_HOME_17_x64" >> $GITHUB_ENV || true
+
+      - name: 🏗️ Configurar Android SDK (pré-instalado)
+        run: |
+          ANDROID_HOME=/usr/local/lib/android/sdk
+          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
 
       - name: 🚀 Cache Gradle
         uses: actions/cache@v4
@@ -38,7 +51,7 @@ jobs:
             ~/.gradle/caches
             ~/.gradle/wrapper
             ~/.gradle/build-cache
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/libs.versions.toml') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
