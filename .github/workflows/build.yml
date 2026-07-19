@@ -48,6 +48,7 @@ jobs:
 
       - name: 🔨 Compilar APK Debug
         run: |
+          chmod +x gradlew
           ./gradlew :app:assembleDebug --parallel --configure-on-demand \
             -Dorg.gradle.caching=true \
             -Dorg.gradle.parallel=true \
