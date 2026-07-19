@@ -1,36 +1,41 @@
 package org.cloudburstmc.protocol.common.util;
 
-import com.nukkitx.natives.util.Natives;
-import com.nukkitx.natives.zlib.Deflater;
-import com.nukkitx.natives.zlib.Inflater;
+import java.nio.ByteBuffer;
+import java.util.zip.DataFormatException;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.buffer.CompositeByteBuf;
 import io.netty.util.concurrent.FastThreadLocal;
 
-import java.util.zip.DataFormatException;
-
+/**
+ * as we do not want to use com.nukkitx.natives,
+ * we override the original class and use pure java implement
+ */
 public class Zlib {
     public static final Zlib DEFAULT = new Zlib(false);
     public static final Zlib RAW = new Zlib(true);
 
     private static final int CHUNK = 8192;
 
+    private final boolean raw;
     private final FastThreadLocal<Inflater> inflaterLocal;
     private final FastThreadLocal<Deflater> deflaterLocal;
 
     private Zlib(boolean raw) {
-        // Required for Android API versions prior to 26.
+        this.raw = raw;
         this.inflaterLocal = new FastThreadLocal<Inflater>() {
             @Override
-            public Inflater initialValue() {
-                return Natives.ZLIB.get().create(raw);
+            protected Inflater initialValue() {
+                return new Inflater(Zlib.this.raw);
             }
         };
         this.deflaterLocal = new FastThreadLocal<Deflater>() {
             @Override
             protected Deflater initialValue() {
-                return Natives.ZLIB.get().create(7, raw);
+                return new Deflater(7, Zlib.this.raw);
             }
         };
     }
@@ -51,17 +56,16 @@ public class Zlib {
 
             Inflater inflater = inflaterLocal.get();
             inflater.reset();
-            inflater.setInput(source.internalNioBuffer(source.readerIndex(), source.readableBytes()));
-            inflater.finished();
+            ByteBuffer nioBuffer = source.internalNioBuffer(source.readerIndex(), source.readableBytes());
+            inflater.setInput(nioBuffer.array(), nioBuffer.arrayOffset() + nioBuffer.position(), nioBuffer.remaining());
 
+            byte[] output = new byte[CHUNK];
             while (!inflater.finished()) {
-                decompressed.ensureWritable(CHUNK);
-                int index = decompressed.writerIndex();
-                int written = inflater.inflate(decompressed.internalNioBuffer(index, CHUNK));
+                int written = inflater.inflate(output);
                 if (written < 1) {
                     break;
                 }
-                decompressed.writerIndex(index + written);
+                decompressed.writeBytes(output, 0, written);
                 if (maxSize > 0 && decompressed.writerIndex() >= maxSize) {
                     throw new DataFormatException("Inflated data exceeds maximum size");
                 }
@@ -98,13 +102,13 @@ public class Zlib {
             Deflater deflater = deflaterLocal.get();
             deflater.reset();
             deflater.setLevel(level);
-            deflater.setInput(source.internalNioBuffer(source.readerIndex(), source.readableBytes()));
+            ByteBuffer nioBuffer = source.internalNioBuffer(source.readerIndex(), source.readableBytes());
+            deflater.setInput(nioBuffer.array(), nioBuffer.arrayOffset() + nioBuffer.position(), nioBuffer.remaining());
 
+            byte[] output = new byte[CHUNK];
             while (!deflater.finished()) {
-                int index = destination.writerIndex();
-                destination.ensureWritable(CHUNK);
-                int written = deflater.deflate(destination.internalNioBuffer(index, CHUNK));
-                destination.writerIndex(index + written);
+                int written = deflater.deflate(output);
+                destination.writeBytes(output, 0, written);
             }
 
             if (destination != compressed) {
