@@ -26,6 +26,9 @@ import com.retrivedmods.wclient.game.module.combat.AutoHvHModule
 import com.retrivedmods.wclient.game.module.combat.AutoTotemModule
 import com.retrivedmods.wclient.game.module.combat.HotbarSwitcherModule
 import com.retrivedmods.wclient.game.module.combat.InfiniteAuraModule
+import com.retrivedmods.wclient.game.module.combat.SuperKnockbackModule
+import com.retrivedmods.wclient.game.module.combat.VelocityModule
+import com.retrivedmods.wclient.game.module.combat.WTapModule
 import com.retrivedmods.wclient.game.module.misc.ArrayListModule
 import com.retrivedmods.wclient.game.module.misc.AutoToolModule
 import com.retrivedmods.wclient.game.module.misc.DerpModule
@@ -45,7 +48,7 @@ import com.retrivedmods.wclient.game.module.motion.IceSpeedModule
 import com.retrivedmods.wclient.game.module.motion.InvWalkModule
 import com.retrivedmods.wclient.game.module.motion.LongJumpModule
 import com.retrivedmods.wclient.game.module.motion.NoClipModule
-import com.retrivedmods.wclient.game.module.misc.AutoBuilderModule
+import com.retrivedmods.wclient.game.module.world.AutoBuilderModule
 import com.retrivedmods.wclient.game.module.misc.AutoDisconnectModule
 import com.retrivedmods.wclient.game.module.misc.CommandHandlerModule
 import com.retrivedmods.wclient.game.module.visual.AmbienceModule
@@ -111,7 +114,6 @@ import com.retrivedmods.wclient.game.module.visual.PlayerJoinModule
 import com.retrivedmods.wclient.game.module.visual.SpeedDisplayModule
 import com.retrivedmods.wclient.game.module.visual.WorldStateModule
 import com.retrivedmods.wclient.game.module.visual.ZoomModule
-import com.retrivedmods.wclient.game.module.visual.TargetHudModule
 import com.retrivedmods.wclient.game.module.world.FreeCameraModule
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
