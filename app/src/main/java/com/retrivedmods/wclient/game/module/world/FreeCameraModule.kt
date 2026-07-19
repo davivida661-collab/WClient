@@ -124,7 +124,7 @@ class FreeCameraModule : Module("free_camera", ModuleCategory.World) {
     private fun sendCountdownMessage(message: String) {
         val textPacket = TextPacket().apply {
             type = TextPacket.Type.RAW
-            this.message = message
+            setMessage(message)
             xuid = ""
             sourceName = ""
         }

@@ -25,7 +25,7 @@ object ActionBarManager {
 
         session.clientBound(SetTitlePacket().apply {
             type = SetTitlePacket.Type.ACTIONBAR
-            text = combinedText
+            setText(combinedText)
             fadeInTime = 0
             fadeOutTime = 0
             stayTime = 2

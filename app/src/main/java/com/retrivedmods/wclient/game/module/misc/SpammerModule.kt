@@ -91,13 +91,14 @@ class SpammerModule : Module("Spammer", ModuleCategory.Misc) {
     private fun sendChatMessage() {
         val messageToSend = buildMessage()
 
-        val textPacket = TextPacket()
-        textPacket.type = TextPacket.Type.CHAT
-        textPacket.sourceName = ""
-        textPacket.message = messageToSend
-        textPacket.xuid = ""
-        textPacket.platformChatId = ""
-        textPacket.setNeedsTranslation(false)
+        val textPacket = TextPacket().apply {
+            type = TextPacket.Type.CHAT
+            sourceName = ""
+            setMessage(messageToSend)
+            xuid = ""
+            platformChatId = ""
+            setNeedsTranslation(false)
+        }
 
         session.serverBound(textPacket)
 
