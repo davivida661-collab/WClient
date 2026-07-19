@@ -6,13 +6,7 @@ import android.os.Build
 import android.view.WindowManager
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.*
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
@@ -178,7 +172,7 @@ class OverlayClickGUI : OverlayWindow() {
         val glowAlpha by infiniteTransition.animateFloat(
             initialValue = 0.4f,
             targetValue = 0.8f,
-            animationSpec = infiniteRepeatable(
+            animationSpec = infiniteRepeatable<Float>(
                 animation = tween(2000, easing = FastOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse
             ),
@@ -390,7 +384,7 @@ class OverlayClickGUI : OverlayWindow() {
         val glowAlpha by infiniteTransition.animateFloat(
             initialValue = 0.3f,
             targetValue = 0.7f,
-            animationSpec = infiniteRepeatable(
+            animationSpec = infiniteRepeatable<Float>(
                 animation = tween(2500, easing = FastOutSlowInEasing),
                 repeatMode = RepeatMode.Reverse
             ),

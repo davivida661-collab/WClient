@@ -287,7 +287,7 @@ fun WBadge(
     color: Color = WColors.Primary,
     textColor: Color = WColors.OnPrimary,
     size: Dp = 18.dp,
-    fontSize: Dp = 10.dp
+    fontSize: Int = 10
 ) {
     Box(
         modifier = modifier

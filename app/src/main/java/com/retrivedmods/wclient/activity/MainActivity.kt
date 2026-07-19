@@ -1,6 +1,7 @@
 package com.retrivedmods.wclient.activity
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -74,7 +75,7 @@ class MainActivity : ComponentActivity() {
         if (!powerManager.isIgnoringBatteryOptimizations(packageName)) {
             startActivity(
                 Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS).apply {
-                    data = "package:$packageName".toUri()
+                    data = Uri.parse("package:$packageName")
                 }
             )
         }
