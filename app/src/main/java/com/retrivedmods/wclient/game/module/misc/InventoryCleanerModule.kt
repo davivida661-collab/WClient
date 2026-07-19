@@ -1,11 +1,18 @@
 package com.retrivedmods.wclient.game.module.misc
+
 import com.retrivedmods.wclient.game.InterceptablePacket
 import com.retrivedmods.wclient.game.Module
 import com.retrivedmods.wclient.game.ModuleCategory
 
 class InventoryCleanerModule : Module("inventory_cleaner", ModuleCategory.Misc) {
-    private val cleanDelay by intValue("Delay", 1000, 100..5000)
-    private val trashItems by boolValue("Trash Items", false)
-    private val sortInventory by boolValue("Sort", true)
-    override fun onEnabled() { session.displayClientMessage("§a[InvCleaner] Ready") }
+    private val mode by enumValue("Mode", Mode.BASIC, Mode::class.java)
+    private val autoDrop by boolValue("Auto Drop", true)
+
+    override fun beforePacketBound(interceptablePacket: InterceptablePacket) {
+        if (!isEnabled) return
+    }
+
+    override fun onEnabled() { session.displayClientMessage("§a[InventoryCleaner] enabled") }
+
+    enum class Mode { BASIC, SMART, STRICT }
 }
