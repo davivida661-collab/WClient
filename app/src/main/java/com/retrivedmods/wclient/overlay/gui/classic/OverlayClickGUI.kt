@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.retrivedmods.wclient.R
 import com.retrivedmods.wclient.game.ModuleCategory
 import com.retrivedmods.wclient.game.ModuleContent
+import com.retrivedmods.wclient.game.ModuleManager
 import com.retrivedmods.wclient.overlay.OverlayManager
 import com.retrivedmods.wclient.overlay.OverlayWindow
 import com.retrivedmods.wclient.ui.theme.WColors
@@ -127,11 +128,7 @@ class OverlayClickGUI : OverlayWindow() {
                     modifier = Modifier.fillMaxSize()
                 ) {
                     HeaderBar(
-                        moduleCount = ModuleCategory.entries.sumOf { category ->
-                            if (category == ModuleCategory.Config) 0 else {
-                                runCatching { ModuleContent(category).let { 0 } }.getOrDefault(0)
-                            }
-                        },
+                        moduleCount = ModuleManager.modules.count { !it.private },
                         onDiscord = {
                             context.startActivity(
                                 Intent(
