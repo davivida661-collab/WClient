@@ -97,7 +97,7 @@ class SpammerModule : Module("Spammer", ModuleCategory.Misc) {
         textPacket.message = messageToSend
         textPacket.xuid = ""
         textPacket.platformChatId = ""
-        textPacket.needsTranslation = false
+        textPacket.setNeedsTranslation(false)
 
         session.serverBound(textPacket)
 

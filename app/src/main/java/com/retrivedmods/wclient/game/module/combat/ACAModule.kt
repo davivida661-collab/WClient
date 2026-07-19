@@ -75,7 +75,7 @@ class ACAModule : Module("ACA", ModuleCategory.Combat) {
             position = newPosition
             rotation = entity.vec3Rotation
             mode = MovePlayerPacket.Mode.NORMAL
-            onGround = false
+            setOnGround(false)
             tick = session.localPlayer.tickExists
         }
 
