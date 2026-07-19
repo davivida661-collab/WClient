@@ -132,7 +132,7 @@ class GameSession(val wRelaySession: WRelaySession) : ComposedPacketHandler {
             setMessage(message)
             xuid = ""
             platformChatId = ""
-            filteredMessage = ""
+            setFilteredMessage("")
         }
         clientBound(textPacket)
     }

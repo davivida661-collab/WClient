@@ -36,7 +36,7 @@ class AutoDisconnectModule : Module("auto_disconnect", ModuleCategory.Misc) {
     private fun disconnectPlayer(currentHealth: Int) {
         val message = "§cAutoDisconnected at $currentHealth HP"
         val disconnectPacket = DisconnectPacket().apply {
-            kickMessage = message
+            setKickMessage(message)
         }
 
         session.clientBound(disconnectPacket)
